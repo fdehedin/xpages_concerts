@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:link escape="true" text="#{compositeData.linkText}" id="link2"
+		style="font-weight:bold">
+		<xp:eventHandler event="onclick" submit="false">
+			<xp:this.script>
+				<xp:executeClientScript script="XSP.openDialog('#{id:dlgIcsFeedInfo}')">
+				</xp:executeClientScript>
+			</xp:this.script>
+		</xp:eventHandler>
+	</xp:link>
+
+	<xe:dialog id="dlgIcsFeedInfo" title="ICS feed informations"
+		styleClass="dialog">
+		<table width="100%" class="ornate" style="margin-bottom:15px;">
+			<tbody>
+				<tr>
+					<xp:text tagName="td" value="#{compositeData.icsFeedInfo}"
+						escape="flase" id="computedField1">
+					</xp:text>
+				</tr>
+				<tr>
+					<td>
+						<xp:inputText onfocus="this.select()" style="width:400px;"
+							id="fldLinkValue" styleClass="fldLinkValue"
+							value="#{compositeData.linkValue}">
+						</xp:inputText>
+
+						<xp:button value="select link" id="button1"
+							onclick="dojo.byId('#{id:fldLinkValue}').select();" styleClass="btn">
+						</xp:button>
+
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div>You can open the ICS Feed directly by clicking the
+							following link
+							(webcal):</div>
+						<xp:link escape="true" text="open ICS Feed directly" id="link1"
+							value="#{compositeData.directLinkValue}" style="" styleClass="internal">
+						</xp:link>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<xe:dialogButtonBar id="dialogButtonBar1">
+			<xp:link escape="true" text="close" id="linkCancel" title="Fenster schliessen"
+				styleClass="lotusAction">
+				<xp:eventHandler event="onclick" submit="false">
+					<xp:this.script>
+						<xp:executeClientScript script="XSP.closeDialog('#{id:dlgIcsFeedInfo}')">
+						</xp:executeClientScript>
+					</xp:this.script>
+				</xp:eventHandler>
+			</xp:link>
+		</xe:dialogButtonBar>
+
+	</xe:dialog>
+</xp:view>

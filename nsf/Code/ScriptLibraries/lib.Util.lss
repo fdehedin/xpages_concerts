@@ -1,0 +1,250 @@
+'++LotusScript Development Environment:2:5:(Options):0:74
+%REM
+	Library lib.Util
+	Created Oct 15, 2009 by DEV Fdn/Zurich
+	Description: Comments for Library
+%END REM
+Option Public
+Option Declare
+
+Declare Function w32_OSGetSystemTempDirectory Lib "nnotes" Alias "OSGetSystemTempDirectory" ( ByVal S As String) As Integer
+Declare Function mac_OSGetSystemTempDirectory Lib "NotesLib" Alias "OSGetSystemTempDirectory" ( ByVal S As String) As Integer
+Declare Function linux_OSGetSystemTempDirectory Lib "libnotes.so" Alias "OSGetSystemTempDirectory" ( ByVal S As String) As Integer
+Const ERR_UNSUPPORTED_PLATFORM = 20300 ' or other value you choose.  
+
+'++LotusScript Development Environment:2:5:(Forward):0:1
+Declare Sub Initialize() 
+Declare Public Function isNewdoc(doc As NotesDocument) As Boolean
+Declare Function isMember(tVal As String, vArray As Variant) As Boolean
+Declare Function isListEmpty (ListStuff As Variant) As boolean 
+Declare Function sRight ( sourceString As String, searchString As String ) As String
+Declare Function word (sourceString As String, separator As String, number As Integer) As String
+Declare Public Function removeTrailingZeros(value As String) As String
+Declare Public Function getCommonName(sName As String) As String
+Declare Function GetNotesTempDirectory() As String
+Declare Sub chooseDB(prefix As String)
+Declare Function getArrayOfList(lst As Variant) As Variant
+Declare Function sLeft ( sourceString As String, searchString As String ) As String
+Declare Function RaiseError() 
+
+'++LotusScript Development Environment:2:5:(Declarations):0:10
+
+'++LotusScript Development Environment:2:2:Initialize:3:10
+ 
+
+Sub Initialize() 
+	
+
+End Sub
+
+'++LotusScript Development Environment:2:1:isNewdoc:5:8
+%REM
+	Function isNewdoc
+	Description: Comments for Function
+%END REM
+Public Function isNewdoc(doc As NotesDocument) As Boolean
+	isNewdoc = doc.Getitemvalue("$updatedby")(0) = ""
+End Function
+
+
+
+'++LotusScript Development Environment:2:1:isMember:2:8
+
+Function isMember(tVal As String, vArray As Variant) As Boolean
+Dim x As Integer
+For x = 0 To UBound(vArray)
+ If vArray(x) Like tVal Then
+  isMember = True
+  Exit Function
+ End If
+Next
+
+isMember = False
+
+End Function
+
+'++LotusScript Development Environment:2:1:isListEmpty:1:8
+Function isListEmpty (ListStuff As Variant) As boolean 
+
+isListEmpty = True 
+
+ForAll stuff In ListStuff 
+If ListTag(stuff) = "" Then 
+isListEmpty = True 
+Exit Function 
+Else 
+isListEmpty = False 
+Exit Function 
+End If 
+End ForAll 
+
+End Function 
+
+'++LotusScript Development Environment:2:1:sRight:2:8
+
+Function sRight ( sourceString As String, searchString As String ) As String
+	Dim pos As Integer, length As Integer, start As Integer
+	pos = InStr ( sourceString, searchString )
+	length = Len( sourceString )
+	start = length - pos
+	sRight = Right ( sourceString, start% )
+End Function
+
+'++LotusScript Development Environment:2:1:word:1:8
+Function word (sourceString As String, separator As String, number As Integer) As String
+'LotusScript equivalents for the @Word 
+
+Dim searchString As string
+Dim i As Integer, pos As Integer, substring As string
+searchString=SourceString & separator ' add one separator to catch also the last substring
+For i = 1 To number
+pos=InStr(searchString, separator)
+If pos=0 Then Exit For
+substring=Left(searchString,pos-1)
+searchString$=Mid(searchString, pos+1)
+Next
+If pos > 0 Then
+	word=substring
+Else
+	word=""
+End If
+End Function
+
+
+
+
+'++LotusScript Development Environment:2:1:removeTrailingZeros:1:8
+Public Function removeTrailingZeros(value As String) As String
+	removeTrailingZeros = Replace (LTrim (Replace (value, "0", " ")), " ", "0")
+End Function
+
+'++LotusScript Development Environment:2:1:getCommonName:9:8
+
+
+
+
+%REM
+	Function getCommonName
+	Description: Comments for Function
+%END REM
+Public Function getCommonName(sName As String) As String
+	Dim nName As NotesName
+	Set nName = New NotesName(sName)
+	getCommonName = nName.Common
+End Function
+
+'++LotusScript Development Environment:2:1:GetNotesTempDirectory:1:8
+Function GetNotesTempDirectory() As String
+' Returns the path of the temporary directory used by Notes.
+Dim session As New NotesSession
+Dim d As String * 256
+Dim s%
+Select Case session.Platform
+Case "Linux"
+s% = linux_OSGetSystemTempDirectory(d)
+Case "Macintosh"
+	MessageBox "you have a mac!"
+s% = mac_OSGetSystemTempDirectory(d)
+		MessageBox "and your temp directory is: " + CStr(s%)
+Case "Windows/32" 
+	
+s% = w32_OSGetSystemTempDirectory(d)
+Case Else
+Error ERR_UNSUPPORTED_PLATFORM, "In GetNotesTempDirectory, platform not supported: " + session.Platform
+End Select
+GetNotesTempDirectory = Left$(d, s%) 
+End Function
+
+
+
+'++LotusScript Development Environment:2:2:chooseDB:5:8
+%REM
+	Sub chooseDB
+	Description: Comments for Sub
+%END REM
+Sub chooseDB(prefix As String)
+	On Error GoTo processError
+	Dim answer As Variant
+	Dim servername As String
+	Dim server As NotesName
+	Dim uiws As New NotesUIWorkspace
+	Dim uidoc As NotesUIDocument
+	Dim filepath As String
+	Dim title As String
+	Dim db As NotesDatabase
+	
+	answer = uiws.Prompt(13,"Datenbank wählen","Datenbank wählen")
+	If Not IsArray(answer) Then
+		Exit Sub
+	End If
+	
+	servername=answer(0)
+	If servername <>"" Then 
+		Set server= New NotesName(servername)
+		servername = server.Abbreviated
+	End If
+	filepath=answer(1)
+	title=answer(2)
+	Set uidoc = uiws.CurrentDocument
+	Call uidoc.FieldSetText(prefix+"Server",servername)
+	Call uidoc.fieldsettext(prefix+"Database",filepath)
+	Call uidoc.fieldsettext(prefix+"Title",title)
+	Set db = New NotesDatabase(servername,filepath)
+	If db.isopen Then
+		Call uidoc.FieldSetText(prefix+"ReplikaID",db.ReplicaID)
+	End If
+	Call uidoc.Refresh(False)
+	Exit Sub
+processError:
+	Call raiseError()
+	Exit Sub
+End Sub
+
+'++LotusScript Development Environment:2:1:getArrayOfList:5:8
+%REM
+	Function listToArray
+	Description: Comments for Function
+%END REM
+Function getArrayOfList(lst As Variant) As Variant
+	On Error GoTo processError
+	
+	Dim result() As string 
+	Dim i As Integer
+	i = 0
+	Forall e In lst 
+		ReDim Preserve result(i) As String
+		result(i) = e
+	End ForAll
+		
+	Exit function
+processError:
+	Call raiseError()
+	Exit function
+End function
+
+'++LotusScript Development Environment:2:1:sLeft:2:8
+
+Function sLeft ( sourceString As String, searchString As String ) As String
+Dim pos As Integer
+pos = InStr ( sourceString, searchString )
+If pos > 0 Then pos = pos -1
+sLeft = Left ( sourceString, pos )
+End Function
+
+'++LotusScript Development Environment:2:1:RaiseError:1:8
+Function RaiseError() 
+	Dim thisType As String
+	Dim es As String
+	'          thisType = Typename(Me)
+	' Not a class, use the calling module instead
+	If (thisType = "") Then thisType = GetThreadInfo(11)
+	es = thisType & "::" & GetThreadInfo(10) & ": "
+	If (Err = 0) Then 
+		es = es + "Manually raised an error" 
+	Else
+		es = es +_  
+		"Run time error: (" + Trim(Str(Err)) + ") " + _
+		Error$ + " at line: "+ Trim(Str(Erl))
+	End If
+	Print es
+End Function

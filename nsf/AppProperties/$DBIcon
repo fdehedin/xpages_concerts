@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+<note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
+ replicaid='C1257F9200734F49'>
+<noteinfo noteid='172' unid='E1A7D0344EA27A5FC1257D42003E9425' sequence='9'>
+<created><datetime dst='true'>20140828T132331,57+02</datetime></created>
+<modified><datetime dst='true'>20160411T225931,11+02</datetime></modified>
+<revised><datetime dst='true'>20160411T112518,84+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20160411T225931,10+02</datetime></lastaccessed>
+<addedtofile><datetime dst='true'>20160411T225931,10+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=DEV Fdn/O=Zurich</name><name>CN=FDN01/O=FDN</name><name
+>CN=Tolosa/O=Zurich</name><name>CN=Administrator/O=FDN</name><name>CN=FDN01/O=FDN</name><name
+>CN=Administrator/O=FDN</name><name>CN=DOMDEV-Master/O=Belsoft-DEV</name><name
+>CN=Administrator/O=FDN</name><name>CN=DOMDEV-Master/O=Belsoft-DEV</name></updatedby>
+<wassignedby><name>CN=DOMDEV-Master/O=Belsoft-DEV</name></wassignedby>
+<item name='$TITLE'><text>$DBIcon</text></item>
+<item name='$Flags'><text>34Ci~Q</text></item>
+<item name='$ImagesWide' sign='true'><number>1</number></item>
+<item name='$ImagesHigh' sign='true'><number>1</number></item>
+<item name='$ImagesColorize' sign='true'><number>0</number></item>
+<item name='$FileSize' sign='true'><number>2233</number></item>
+<item name='$ImageData' sign='true'>
+<rawitemdata type='1'>
+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
+vAdsKAjS3wAAAABJRU5ErkJgggA=
+</rawitemdata></item>
+<item name='$MimeType' sign='true'><text>image/png</text></item>
+<item name='$FileModDT' sign='true'><datetime>20160207T103957,61+01</datetime></item>
+<item name='$ImageNames' sign='true'><text>C:\Users\fdn\Pictures\concert_db_logo.png</text></item>
+<item name='$DesignerVersion' sign='true'><text>8.5.3</text></item></note>
+

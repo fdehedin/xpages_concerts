@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<section class="lotusSection2 lotusFirst">
+		<!-- header is an HTML5 element. Use div if you are using HTML4. -->
+		<header class="lotusSectionHeader">
+			<div class="lotusInner">
+				<xp:text escape="true" id="lotusHeading" tagName="h2"
+					styleClass="lotusHeading" value="#{compositeData.title}"></xp:text>
+			</div>
+		</header>
+		<div class="lotusSectionBody">
+			<div class="lotusChunk">
+				inhalt
+			</div>
+		</div>
+	</section>
+</xp:view>

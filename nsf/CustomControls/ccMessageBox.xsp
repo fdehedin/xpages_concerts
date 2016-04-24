@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core">
+	<xp:div role="status" styleClass="lotusMessage lotusInfo"
+		rendered="#{compositeData.type == 'INFO' and compositeData.messageText !=''}">
+
+		<span class="lotusAltText">Information:</span>
+		<xp:text escape="true" id="computedField1" value="#{compositeData.messageText}"></xp:text>
+	</xp:div>
+
+	<xp:div role="alert" styleClass="lotusMessage"
+		rendered="#{compositeData.type == 'ERROR' and compositeData.messageText !=''}">
+
+		<span class="lotusAltText">Error:</span>
+		<xp:text escape="true" id="computedField2" value="#{compositeData.messageText}"></xp:text>
+	</xp:div>
+
+	<xp:div role="alert" styleClass="lotusMessage lotusConfirm"
+		rendered="#{compositeData.type == 'OK' and compositeData.messageText !=''}">
+
+		<span class="lotusAltText">OK:</span>
+		<xp:text escape="true" id="computedField3" value="#{compositeData.messageText}"></xp:text>
+	</xp:div>
+</xp:view>

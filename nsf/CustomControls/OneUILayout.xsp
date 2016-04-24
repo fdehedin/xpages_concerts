@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom">
+
+
+	<xp:this.resources>
+		<!-- <xp:dojoModule name="dijit.dialog"></xp:dojoModule>-->
+		<xp:styleSheet href="/customstylesheet.css"></xp:styleSheet>
+		<xp:script src="/common.js" clientSide="true"></xp:script>
+
+	</xp:this.resources>
+	<xe:applicationLayout id="oneUILayout1">
+		<xe:this.facets>
+			<xp:callback xp:key="LeftColumn" facetName="LeftColumn"
+				id="callback1">
+			</xp:callback>
+			<xp:callback xp:key="RightColumn" facetName="RightColumn"
+				id="callback2">
+			</xp:callback>
+		</xe:this.facets>
+		<xe:this.configuration>
+			<xe:applicationConfiguration
+				placeBarName="TEST" legalLogoAlt="Logo" productLogo=""
+				navigationPath="suche.xsp" titleBarName="Events'n'Concerts"
+				placeBar="false" titleBar="true">
+				<xe:this.bannerApplicationLinks>
+
+
+				</xe:this.bannerApplicationLinks>
+				<xe:this.bannerUtilityLinks>
+					<xe:userTreeNode></xe:userTreeNode>
+					<xe:loginTreeNode></xe:loginTreeNode>
+				</xe:this.bannerUtilityLinks>
+
+				<!--
+					Way to have Application Name in title bar area-->
+
+				<xe:this.placeBarActions>
+
+				</xe:this.placeBarActions>
+
+				<xe:this.footerLinks>
+
+				</xe:this.footerLinks>
+				<xe:this.searchBar>
+					<xe:appSearchBar inactiveText="Suchbegriff eingeben"
+						loaded="false" inputTitle="Suchbegriff eingeben" scopeTitle="Search options"
+						legend="Search options and keywords" optionsParam="field"
+						queryParam="searchstring" pageName="/view_schadenmeldungen.xsp">
+					</xe:appSearchBar>
+				</xe:this.searchBar>
+
+				<xe:this.titleBarTabs>
+
+					<xe:basicLeafNode label="Upcoming concerts" title="Upcoming concerts"
+						selected="true">
+					</xe:basicLeafNode>
+				</xe:this.titleBarTabs>
+
+
+			</xe:applicationConfiguration>
+		</xe:this.configuration>
+		<xp:callback id="OneUIMainAreaCallback"></xp:callback>
+		<xe:dialog id="dialog1"></xe:dialog>
+	</xe:applicationLayout>
+</xp:view>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex"
+	xmlns:xc="http://www.ibm.com/xsp/custom" pageTitle="Concerts">
+
+
+	<xc:OneUILayout id="oneui" contextKey="concerts">
+		<xp:this.facets>
+			<!--
+				<xp:panel xp:key="RightColumn"> <xc:ccWidgetContainer
+				title="TEST"></xc:ccWidgetContainer> </xp:panel> <xp:panel
+				xp:key="LeftColumn"></xp:panel>
+			-->
+		</xp:this.facets>
+
+		<xp:text escape="true" id="computedField3" tagName="h2"
+			value="#{controllerConcerts.concertListTitle}"></xp:text>
+
+		<xp:label value="City" id="label1" for="fldCity"
+			style="margin-right:10px;margin-left:10px;">
+
+		</xp:label>
+		<xp:comboBox id="fldCity" value="#{controllerConcerts.city}"
+			style="margin-top:20px;margin-bottom:20px;">
+			<xp:selectItem itemLabel="All Cities" itemValue="all"></xp:selectItem>
+			<xp:selectItems value="${controllerConcerts.cities}"></xp:selectItems>
+			<xp:eventHandler event="onchange" submit="true"
+				refreshMode="partial" disableValidators="true" refreshId="oneui"
+				execMode="partial" execId="oneui">
+				<xp:this.action>
+					<xp:executeScript
+						script="#{javascript:controllerConcerts.clearConcerts()}">
+					</xp:executeScript>
+				</xp:this.action>
+			</xp:eventHandler>
+		</xp:comboBox>
+
+		<table cellspacing="0" cellpadding="0" border="0" indexVar="i"
+			summary="table summary goes here..." class="lotusTable">
+			<tbody>
+				<tr class="lotusFirst">
+					<th class="lotusFirstCell">
+						Concert Name
+						</th>
+					<th scope="col">
+						City
+						</th>
+					<th scope="col">
+						Date
+						</th>
+
+					<th scope="col"></th>
+				</tr>
+				<xp:repeat id="repeat1" rows="30" disableOutputTag="true"
+					var="concert" value="#{controllerConcerts.concerts}">
+
+					<xp:tr styleClass="#{i==0?'lotusFirst':''} #{i % 2 == 0 ? 'lotusAltRow' : ''}">
+						<td class="lotusFirstCell">
+							<h4>
+								<xp:link escape="true" text="#{concert.name}" id="link1">
+								</xp:link>
+							</h4>
+						</td>
+
+						<xp:text escape="true" tagName="td" value="#{concert.city}"
+							id="computedField1">
+						</xp:text>
+
+						<xp:text escape="true" tagName="td"
+							value="#{concert.firstTimeRange.dateTimeStart}" id="computedField2">
+							<xp:this.converter>
+								<xp:convertDateTime type="both" timeStyle="short"
+									dateStyle="full">
+								</xp:convertDateTime>
+							</xp:this.converter>
+						</xp:text>
+
+						<td class="lotusAlignRight lotusLastCell">
+
+						</td>
+					</xp:tr>
+
+				</xp:repeat>
+			</tbody>
+		</table>
+
+		<br />
+		<xc:ccIcsLink linkValue="#{controllerConcerts.icsFeedLink}"
+			linkText="Subscribe #{controllerConcerts.city} concerts as ICS Feed."
+			directLinkValue="#{controllerConcerts.icsFeedDirectLink}">
+		</xc:ccIcsLink>
+	</xc:OneUILayout>
+</xp:view>
+
+
